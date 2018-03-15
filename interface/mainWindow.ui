@@ -67,11 +67,16 @@
          <item>
           <widget class="QListWidget" name="listRoutines">
            <property name="currentRow">
-            <number>-1</number>
+            <number>0</number>
            </property>
            <item>
             <property name="text">
              <string>Test Routine</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Routine 1</string>
             </property>
            </item>
            <item>
@@ -82,11 +87,6 @@
            <item>
             <property name="text">
              <string>Routine 3</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Routine 4</string>
             </property>
            </item>
           </widget>
@@ -127,11 +127,11 @@
        <property name="currentIndex">
         <number>0</number>
        </property>
-       <widget class="QWidget" name="tabRtn1">
+       <widget class="QWidget" name="tabRtn0Setup">
         <attribute name="title">
-         <string>Test Routine</string>
+         <string>Dummy Routine</string>
         </attribute>
-        <widget class="QPushButton" name="btnRtn1Start">
+        <widget class="QPushButton" name="btnRtn0Start">
          <property name="geometry">
           <rect>
            <x>240</x>
@@ -144,7 +144,7 @@
           <string>Start</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="lblRtn1SetupStatus">
+        <widget class="QLineEdit" name="lblRtn0SetupStatus">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -208,7 +208,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QSpinBox" name="sbRtn1NumPoints">
+        <widget class="QSpinBox" name="sbRtn0NumPoints">
          <property name="geometry">
           <rect>
            <x>100</x>
@@ -227,7 +227,7 @@
           <number>200</number>
          </property>
         </widget>
-        <widget class="QDoubleSpinBox" name="sbRtn1XInitial">
+        <widget class="QDoubleSpinBox" name="sbRtn0XInitial">
          <property name="geometry">
           <rect>
            <x>100</x>
@@ -243,7 +243,7 @@
           <double>65536.000000000000000</double>
          </property>
         </widget>
-        <widget class="QDoubleSpinBox" name="sbRtn1XFinal">
+        <widget class="QDoubleSpinBox" name="sbRtn0XFinal">
          <property name="geometry">
           <rect>
            <x>100</x>
@@ -278,7 +278,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QSpinBox" name="sbRtn1StepDelay">
+        <widget class="QSpinBox" name="sbRtn0StepDelay">
          <property name="geometry">
           <rect>
            <x>100</x>
@@ -288,7 +288,7 @@
           </rect>
          </property>
          <property name="minimum">
-          <number>1</number>
+          <number>-1</number>
          </property>
          <property name="maximum">
           <number>1000</number>
@@ -377,7 +377,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QDoubleSpinBox" name="sbRtn1G1a">
+        <widget class="QDoubleSpinBox" name="sbRtn0G1a">
          <property name="geometry">
           <rect>
            <x>30</x>
@@ -393,7 +393,7 @@
           <double>256.000000000000000</double>
          </property>
         </widget>
-        <widget class="QDoubleSpinBox" name="sbRtn1G1b">
+        <widget class="QDoubleSpinBox" name="sbRtn0G1b">
          <property name="geometry">
           <rect>
            <x>30</x>
@@ -412,7 +412,7 @@
           <double>3.000000000000000</double>
          </property>
         </widget>
-        <widget class="QDoubleSpinBox" name="sbRtn1G1c">
+        <widget class="QDoubleSpinBox" name="sbRtn0G1c">
          <property name="geometry">
           <rect>
            <x>30</x>
@@ -431,7 +431,7 @@
           <double>-2.000000000000000</double>
          </property>
         </widget>
-        <widget class="QDoubleSpinBox" name="sbRtn1G1d">
+        <widget class="QDoubleSpinBox" name="sbRtn0G1d">
          <property name="geometry">
           <rect>
            <x>160</x>
@@ -466,7 +466,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QDoubleSpinBox" name="sbRtn1G1e">
+        <widget class="QDoubleSpinBox" name="sbRtn0G1e">
          <property name="geometry">
           <rect>
            <x>160</x>
@@ -498,7 +498,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QDoubleSpinBox" name="sbRtn1G1f">
+        <widget class="QDoubleSpinBox" name="sbRtn0G1f">
          <property name="geometry">
           <rect>
            <x>160</x>
@@ -594,7 +594,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QDoubleSpinBox" name="sbRtn1G2a">
+        <widget class="QDoubleSpinBox" name="sbRtn0G2a">
          <property name="geometry">
           <rect>
            <x>30</x>
@@ -613,7 +613,7 @@
           <double>1.000000000000000</double>
          </property>
         </widget>
-        <widget class="QDoubleSpinBox" name="sbRtn1G2b">
+        <widget class="QDoubleSpinBox" name="sbRtn0G2b">
          <property name="geometry">
           <rect>
            <x>30</x>
@@ -632,7 +632,7 @@
           <double>3.000000000000000</double>
          </property>
         </widget>
-        <widget class="QDoubleSpinBox" name="sbRtn1G2c">
+        <widget class="QDoubleSpinBox" name="sbRtn0G2c">
          <property name="geometry">
           <rect>
            <x>170</x>
@@ -651,7 +651,7 @@
           <double>0.500000000000000</double>
          </property>
         </widget>
-        <widget class="QDoubleSpinBox" name="sbRtn1G2d">
+        <widget class="QDoubleSpinBox" name="sbRtn0G2d">
          <property name="geometry">
           <rect>
            <x>170</x>
@@ -703,19 +703,19 @@
          </property>
         </widget>
        </widget>
-       <widget class="QWidget" name="tabRtn2">
+       <widget class="QWidget" name="tabRtn1Setup">
         <attribute name="title">
-         <string>Routine 2</string>
+         <string>Routine 1</string>
         </attribute>
        </widget>
-       <widget class="QWidget" name="tabRtn3">
+       <widget class="QWidget" name="tabRtn2Setup">
+        <attribute name="title">
+         <string>Rtn 2</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="tabRtn3Setup">
         <attribute name="title">
          <string>Rtn 3</string>
-        </attribute>
-       </widget>
-       <widget class="QWidget" name="tabRtn4">
-        <attribute name="title">
-         <string>Rtn 4</string>
         </attribute>
        </widget>
       </widget>
@@ -728,11 +728,11 @@
        <property name="documentMode">
         <bool>false</bool>
        </property>
-       <widget class="QWidget" name="tabRtn1">
+       <widget class="QWidget" name="tabRtn0Run">
         <attribute name="title">
-         <string>Test Routine</string>
+         <string>Dummy Routine</string>
         </attribute>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="btnRtn0Pause">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -745,7 +745,7 @@
           <string>Pause</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="btnRtn0Resume">
          <property name="geometry">
           <rect>
            <x>60</x>
@@ -758,7 +758,7 @@
           <string>Resume</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="btnRtn0Cancel">
          <property name="geometry">
           <rect>
            <x>160</x>
@@ -771,7 +771,7 @@
           <string>Cancel</string>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar">
+        <widget class="QProgressBar" name="pbRtn0">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -790,7 +790,7 @@
           <enum>QProgressBar::TopToBottom</enum>
          </property>
         </widget>
-        <widget class="QLineEdit" name="lineEdit_10">
+        <widget class="QLineEdit" name="lblRtn0Status">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -806,7 +806,7 @@
           <string>steps done / steps total</string>
          </property>
         </widget>
-        <widget class="QGraphicsView" name="graphicsView">
+        <widget class="QGraphicsView" name="gvRtn0Graph1">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -816,7 +816,7 @@
           </rect>
          </property>
         </widget>
-        <widget class="QGraphicsView" name="graphicsView_3">
+        <widget class="QGraphicsView" name="gvRtn0Graph2">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -853,19 +853,19 @@
          </property>
         </widget>
        </widget>
-       <widget class="QWidget" name="tabRtn2">
+       <widget class="QWidget" name="tabRtn1Run">
         <attribute name="title">
-         <string>Routine 2</string>
+         <string>Routine 1</string>
         </attribute>
        </widget>
-       <widget class="QWidget" name="tabRtn3">
+       <widget class="QWidget" name="tabRtn2Run">
+        <attribute name="title">
+         <string>Rtn 2</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="tabRtn3Run">
         <attribute name="title">
          <string>Rtn 3</string>
-        </attribute>
-       </widget>
-       <widget class="QWidget" name="tabRtn4">
-        <attribute name="title">
-         <string>Rtn 4</string>
         </attribute>
        </widget>
       </widget>

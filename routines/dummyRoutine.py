@@ -3,18 +3,25 @@
 
 
 
+
 # These modules aren't needed for all routines, we just happen to use them here
 import numpy
 import math
 
 
+class deldep(object):
+	def __init__(self,id):
+		self.id=id
+	def __del__(self):
+		print("deldep with id {id} deleted".format(id=self.id))
 
-# Required function: validateParamters
+
+# Required function: validateParamters. function name = routineNameValidateParameters
 # Takes as inputs the same parameters that the routine takes
 # Determines whether the given set of parameters is valid or not
 # Returns True if they are valid
 # Otherwise, returns a string describing what issues(s) it found with the parameters.
-def validateParameters(
+def dummyRoutineValidateParameters(
 	numPoints,
 	stepDelay,
 	xInitial,
@@ -35,13 +42,16 @@ def validateParameters(
 		return "number of points must be at least 1"
 
 	if stepDelay < 0:
-		return "step delay must be greater than zero"
+		return "step delay cannot be negative"
 
 	# If we get to this point, there aren't any issues, so we return True, indicating that the set of parameter given is valid.
 	return True
 
 
 
+
+# The routine object itself. class name = routineNameInstance
+#
 class dummyRoutineInstance(object):
 
 	def __init__(self,
@@ -96,6 +106,8 @@ class dummyRoutineInstance(object):
 
 		# required property: self.complete
 		# this value is accessed by the UI and used to determine whether the routine has finished.
+		# As soon as the UI finds this value is True, it will delete the routine instance.
+		# Make sure all loose ends (saving data, resetting equipment, etc) are taken care of by the routine before this is set to True.
 		self.complete = False
 
 
@@ -138,7 +150,7 @@ class dummyRoutineInstance(object):
 	# Required function: getDisplayData
 	# This function is called by the UI to retrieve data for the routine's display
 	# 
-	# The most basic data that this function returns are the progress (perent completion, from 0 to 1) and the status, a short descriptive string.
+	# The most basic data that this function returns are the progress (percent completion, from 0 to 1) and the status, a short descriptive string.
 	# It also returns any other data that the UI uses for displays (temperature and humidity values for readouts, arrays for making graphs, etc)
 	def getDisplayData(self):
 		progress = self.pointsDone / self.numPoints
@@ -149,6 +161,21 @@ class dummyRoutineInstance(object):
 			self.g1Data[:self.pointsDone], # Only return values for the points that have been completed, not for the whole (incomplete) data set
 			self.g2Data[:self.pointsDone], # 
 			]
+
+
+	# Required function: cancel
+	# This function is called if the user cancels the routine while it is in operation
+	# It should take care of all loose ends
+	# The instance of the routine will be deleted IMMEDIATELY after this function completes.
+	def cancel(self):
+		pass
+
+
+
+
+
+
+
 
 
 
