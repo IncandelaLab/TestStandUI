@@ -25,6 +25,9 @@ class mainDesigner(gui.QMainWindow,Ui_MainWindow):
 		# the tabRoutinePerform tab that is running the routine
 		#
 		# Control of setup / selection can be regained by completing or cancelling the routine
+		# With this choice we have limited ourselves to one routine running at a time
+		# If we want to be able to run multiple in parallel, we'll have to remove this tab-switching restriction.
+		# Disabling the contents of the setup tab for running routines is still needed in this case.
 		# 
 		# This will disable all but routine 1
 		##for i in range(1,4):
