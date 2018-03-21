@@ -144,27 +144,11 @@
           <string>Start</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="lblRtn0SetupStatus">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>10</y>
-           <width>231</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-         <property name="placeholderText">
-          <string>Setup status</string>
-         </property>
-        </widget>
         <widget class="QLineEdit" name="lineEdit">
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>41</y>
+           <y>140</y>
            <width>91</width>
            <height>20</height>
           </rect>
@@ -180,7 +164,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>81</y>
+           <y>180</y>
            <width>91</width>
            <height>20</height>
           </rect>
@@ -196,7 +180,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>101</y>
+           <y>200</y>
            <width>91</width>
            <height>21</height>
           </rect>
@@ -212,7 +196,7 @@
          <property name="geometry">
           <rect>
            <x>100</x>
-           <y>41</y>
+           <y>140</y>
            <width>91</width>
            <height>20</height>
           </rect>
@@ -231,7 +215,7 @@
          <property name="geometry">
           <rect>
            <x>100</x>
-           <y>81</y>
+           <y>180</y>
            <width>91</width>
            <height>20</height>
           </rect>
@@ -247,7 +231,7 @@
          <property name="geometry">
           <rect>
            <x>100</x>
-           <y>101</y>
+           <y>200</y>
            <width>91</width>
            <height>21</height>
           </rect>
@@ -266,7 +250,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>61</y>
+           <y>160</y>
            <width>91</width>
            <height>20</height>
           </rect>
@@ -282,7 +266,7 @@
          <property name="geometry">
           <rect>
            <x>100</x>
-           <y>61</y>
+           <y>160</y>
            <width>91</width>
            <height>20</height>
           </rect>
@@ -294,20 +278,20 @@
           <number>1000</number>
          </property>
          <property name="value">
-          <number>50</number>
+          <number>250</number>
          </property>
         </widget>
         <widget class="QLineEdit" name="lineEdit_5">
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>160</y>
-           <width>51</width>
+           <y>239</y>
+           <width>61</width>
            <height>20</height>
           </rect>
          </property>
          <property name="text">
-          <string>Graph 1</string>
+          <string>Equation 1</string>
          </property>
          <property name="readOnly">
           <bool>true</bool>
@@ -317,7 +301,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>180</y>
+           <y>259</y>
            <width>251</width>
            <height>21</height>
           </rect>
@@ -333,7 +317,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>200</y>
+           <y>279</y>
            <width>21</width>
            <height>21</height>
           </rect>
@@ -349,7 +333,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>220</y>
+           <y>299</y>
            <width>21</width>
            <height>21</height>
           </rect>
@@ -365,7 +349,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>240</y>
+           <y>319</y>
            <width>21</width>
            <height>21</height>
           </rect>
@@ -381,7 +365,7 @@
          <property name="geometry">
           <rect>
            <x>30</x>
-           <y>200</y>
+           <y>279</y>
            <width>101</width>
            <height>21</height>
           </rect>
@@ -397,7 +381,7 @@
          <property name="geometry">
           <rect>
            <x>30</x>
-           <y>220</y>
+           <y>299</y>
            <width>101</width>
            <height>21</height>
           </rect>
@@ -416,7 +400,7 @@
          <property name="geometry">
           <rect>
            <x>30</x>
-           <y>240</y>
+           <y>319</y>
            <width>101</width>
            <height>21</height>
           </rect>
@@ -435,7 +419,7 @@
          <property name="geometry">
           <rect>
            <x>160</x>
-           <y>200</y>
+           <y>279</y>
            <width>101</width>
            <height>21</height>
           </rect>
@@ -454,7 +438,7 @@
          <property name="geometry">
           <rect>
            <x>140</x>
-           <y>240</y>
+           <y>319</y>
            <width>21</width>
            <height>21</height>
           </rect>
@@ -470,7 +454,7 @@
          <property name="geometry">
           <rect>
            <x>160</x>
-           <y>220</y>
+           <y>299</y>
            <width>101</width>
            <height>21</height>
           </rect>
@@ -486,7 +470,7 @@
          <property name="geometry">
           <rect>
            <x>140</x>
-           <y>200</y>
+           <y>279</y>
            <width>21</width>
            <height>21</height>
           </rect>
@@ -502,7 +486,7 @@
          <property name="geometry">
           <rect>
            <x>160</x>
-           <y>240</y>
+           <y>319</y>
            <width>101</width>
            <height>21</height>
           </rect>
@@ -521,7 +505,7 @@
          <property name="geometry">
           <rect>
            <x>140</x>
-           <y>220</y>
+           <y>299</y>
            <width>21</width>
            <height>21</height>
           </rect>
@@ -537,20 +521,20 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>300</y>
-           <width>51</width>
+           <y>410</y>
+           <width>61</width>
            <height>20</height>
           </rect>
          </property>
          <property name="text">
-          <string>Graph 2</string>
+          <string>Equation 2</string>
          </property>
         </widget>
         <widget class="QLineEdit" name="lineEdit_15">
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>320</y>
+           <y>430</y>
            <width>251</width>
            <height>20</height>
           </rect>
@@ -566,9 +550,9 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>340</y>
+           <y>450</y>
            <width>21</width>
-           <height>20</height>
+           <height>21</height>
           </rect>
          </property>
          <property name="text">
@@ -582,9 +566,9 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>360</y>
+           <y>470</y>
            <width>21</width>
-           <height>20</height>
+           <height>21</height>
           </rect>
          </property>
          <property name="text">
@@ -598,9 +582,9 @@
          <property name="geometry">
           <rect>
            <x>30</x>
-           <y>340</y>
+           <y>450</y>
            <width>91</width>
-           <height>22</height>
+           <height>21</height>
           </rect>
          </property>
          <property name="minimum">
@@ -617,9 +601,9 @@
          <property name="geometry">
           <rect>
            <x>30</x>
-           <y>360</y>
+           <y>470</y>
            <width>91</width>
-           <height>22</height>
+           <height>21</height>
           </rect>
          </property>
          <property name="minimum">
@@ -636,9 +620,9 @@
          <property name="geometry">
           <rect>
            <x>170</x>
-           <y>340</y>
+           <y>450</y>
            <width>91</width>
-           <height>22</height>
+           <height>21</height>
           </rect>
          </property>
          <property name="minimum">
@@ -655,9 +639,9 @@
          <property name="geometry">
           <rect>
            <x>170</x>
-           <y>360</y>
+           <y>470</y>
            <width>91</width>
-           <height>22</height>
+           <height>21</height>
           </rect>
          </property>
          <property name="minimum">
@@ -674,9 +658,9 @@
          <property name="geometry">
           <rect>
            <x>150</x>
-           <y>340</y>
+           <y>450</y>
            <width>21</width>
-           <height>20</height>
+           <height>21</height>
           </rect>
          </property>
          <property name="text">
@@ -690,9 +674,9 @@
          <property name="geometry">
           <rect>
            <x>150</x>
-           <y>360</y>
+           <y>470</y>
            <width>21</width>
-           <height>20</height>
+           <height>21</height>
           </rect>
          </property>
          <property name="text">
@@ -700,6 +684,146 @@
          </property>
          <property name="readOnly">
           <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="cbRtn0G1Order">
+         <property name="geometry">
+          <rect>
+           <x>190</x>
+           <y>240</y>
+           <width>71</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>5</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>4</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>3 (cubic)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>2 (quadratic)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>1 (linear)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>0 (constant)</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_10">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>239</y>
+           <width>41</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Order</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_20">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>349</y>
+           <width>71</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Initial Y</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_21">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>369</y>
+           <width>71</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Final Y</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lblRtn0G1YInitial">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>349</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lblRtn0G1YFinal">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>369</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lblRtn0Secret">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>500</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="placeholderText">
+          <string>secret</string>
+         </property>
+        </widget>
+        <widget class="QListWidget" name="listRtn0SetupIssues">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>231</width>
+           <height>111</height>
+          </rect>
          </property>
         </widget>
        </widget>
@@ -790,7 +914,7 @@
           <enum>QProgressBar::TopToBottom</enum>
          </property>
         </widget>
-        <widget class="QLineEdit" name="lblRtn0Status">
+        <widget class="QLineEdit" name="lblRtn0RunningStatus">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -803,53 +927,268 @@
           <bool>true</bool>
          </property>
          <property name="placeholderText">
-          <string>steps done / steps total</string>
+          <string>status</string>
          </property>
         </widget>
-        <widget class="QGraphicsView" name="gvRtn0Graph1">
+        <widget class="QLineEdit" name="lineEdit_22">
          <property name="geometry">
           <rect>
-           <x>20</x>
-           <y>110</y>
-           <width>391</width>
-           <height>181</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QGraphicsView" name="gvRtn0Graph2">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>340</y>
-           <width>391</width>
-           <height>181</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>90</y>
-           <width>47</width>
-           <height>13</height>
+           <x>10</x>
+           <y>121</y>
+           <width>61</width>
+           <height>20</height>
           </rect>
          </property>
          <property name="text">
-          <string>Graph 1</string>
+          <string>Equation 1</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLineEdit" name="lineEdit_23">
          <property name="geometry">
           <rect>
-           <x>190</x>
-           <y>320</y>
-           <width>47</width>
-           <height>13</height>
+           <x>10</x>
+           <y>141</y>
+           <width>111</width>
+           <height>20</height>
           </rect>
          </property>
          <property name="text">
-          <string>Graph 2</string>
+          <string>current value</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_24">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>161</y>
+           <width>111</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>running average</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_25">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>180</y>
+           <width>111</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>running maximum</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lblRtn0G1RunningValue">
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>141</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lblRtn0G1RunningAverage">
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>161</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lblRtn0G1RunningMaximum">
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>180</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_26">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>200</y>
+           <width>111</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>running minimum</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lblRtn0G1RunningMinimum">
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>200</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_27">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>341</y>
+           <width>61</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Equation 2</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_28">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>361</y>
+           <width>111</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>current value</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_29">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>380</y>
+           <width>111</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>running rms</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_30">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>400</y>
+           <width>111</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>running maximum</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_31">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>420</y>
+           <width>111</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>running minimum</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lblRtn0G2RunningValue">
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>361</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lblRtn0G2RunningRms">
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>381</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lblRtn0G2RunningMaximum">
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>400</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lblRtn0G2RunningMinimum">
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>420</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
          </property>
         </widget>
        </widget>
@@ -886,38 +1225,5 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>listRoutines</sender>
-   <signal>currentRowChanged(int)</signal>
-   <receiver>tabRoutinePerform</receiver>
-   <slot>setCurrentIndex(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>58</x>
-     <y>327</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>673</x>
-     <y>316</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>listRoutines</sender>
-   <signal>currentRowChanged(int)</signal>
-   <receiver>tabRoutineSetup</receiver>
-   <slot>setCurrentIndex(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>58</x>
-     <y>327</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>357</x>
-     <y>316</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

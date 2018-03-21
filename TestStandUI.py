@@ -3,15 +3,27 @@ from interface.mainWindow import Ui_MainWindow
 import sys
 import time
 
+# Load servers and create dicts
+SERVERS = {}
+DEVICES = {}
+
 # Further routine imports here as more are added
-from routines.dummyRoutine import dummyRoutineInstance, dummyRoutineValidateParameters
+from routines.dummyRoutine import dummyRoutinePerformer, dummyRoutineSetupHandler, dummyRoutineCheckAvailable
 
-# The order of items in this list correspond to the order of the routines in the UI
-ROUTINES = [
-	[dummyRoutineInstance,dummyRoutineValidateParameters],
-	]
+# make lists of performers, setup handlers, and availabilities
+# The order of items in these lists correspond to the order of the routines in the UI
+ROUTINE_PERFORMERS     = [dummyRoutinePerformer                      , ]
+ROUTINE_SETUP_HANDLERS = [dummyRoutineSetupHandler                   , ]
+ROUTINE_AVAILABILITIES = [dummyRoutineCheckAvailable(SERVERS,DEVICES), ]
 
-TIMERINTERVAL = 50 # Interval in milliseconds between timer_event calls while the UI is running
+# Other globals
+TIMERINTERVAL     = 50     # Interval in milliseconds between timer_event calls while the UI is running
+LOCATION          = "UCSB" # Location of the test stand from which this code is being run. For now assume UCSB; later, load from file.
+DISPLAY_PRECISION = 6      # Number of decimal points to use on displays
+
+# Database connection. For now just assume no connection; later, add connection support.
+DB_CONNECTION_SUCCESS = False
+
 
 
 class mainDesigner(gui.QMainWindow,Ui_MainWindow):
@@ -19,24 +31,19 @@ class mainDesigner(gui.QMainWindow,Ui_MainWindow):
 		super(mainDesigner,self).__init__(None)
 		self.setupUi(self)
 
-		self.routineRunningID = None # None means no routine is running
-		                             # If a routine is running, this will be equal to the routine's ID (position in the ROUTINES list)
-		self.routineRunning = None # Same as above, None means no routine is running
-		                           # If there is a routine running, this will be the routine object itself
-
-		self.paused = None # None if no routine is running, otherwise True or False determines whether the running routine is paused at the moment.
-		self.firstAdvanceCall = None    # None if in setup mode, otherwise stores whether the next advance call is the first one of this routine instance
+		self.routineRunningID    = None # None means no routine is running
+		                                # If a routine is running, this will be equal to the routine's ID (position in the ROUTINES list)
+		self.routineRunning      = None # Same as above, None means no routine is running
+		                                # If there is a routine running, this will be the routine object itself
+		self.paused              = None # None if in setup mode, otherwise True or False determines whether the running routine is paused at the moment.
+		self.firstAdvanceCall    = None # None if in setup mode, otherwise stores whether the next advance call is the first one of this routine instance
 		self.lastAdvanceCallTime = None # None if in setup mode or the advance hasn't been called yet, otherwise the system time at which advance was last called.
 
 		self.rig()
-		self.validateRoutineSetup() # Validate the default settings so that the proper message is displayed
 		self.start()
 
 
 	def rig(self):
-		self.tabRoutineSetup.currentChanged.connect(self.listRoutines.setCurrentRow)
-		self.tabRoutinePerform.currentChanged.connect(self.listRoutines.setCurrentRow)
-
 		############################
 		## Attribute lists by tab ##
 		############################
@@ -45,10 +52,8 @@ class mainDesigner(gui.QMainWindow,Ui_MainWindow):
 			#self.btnRtn1Start, 
 			# etc...
 			]
-		self.lblSetupStatus = [
-			self.lblRtn0SetupStatus,
-			#self.lblRtn1SetupStatus,
-			# etc...
+		self.listSetupIssues = [
+			self.listRtn0SetupIssues,
 			]
 		self.btnPause = [
 			self.btnRtn0Pause,
@@ -59,69 +64,143 @@ class mainDesigner(gui.QMainWindow,Ui_MainWindow):
 		self.btnCancel = [
 			self.btnRtn0Cancel,
 			]
+		self.pbProgress = [
+			self.pbRtn0,
+			]
+		self.lblRunningStatus = [
+			self.lblRtn0RunningStatus
+			]
+
+		for btn in self.btnStart:
+			btn.clicked.connect(self.startRoutine)
+		for btn in self.btnPause:
+			btn.clicked.connect(self.routinePause)
+		for btn in self.btnResume:
+			btn.clicked.connect(self.routineResume)
+		for btn in self.btnCancel:
+			btn.clicked.connect(self.routineCancel)
+
+
 
 		#################################
 		##  Individual routine rigging ##
 		#################################
-
-		# dummyRoutine
-		self.sbRtn0NumPoints.valueChanged.connect(self.validateRoutineSetup) # Here we are connecting all of the parameter input fields' valueChanged functions to the validateRoutine function.
-		self.sbRtn0StepDelay.valueChanged.connect(self.validateRoutineSetup) # This will ensure that any time the routine's parameters are changed, the validity of the new set of parameters
-		self.sbRtn0XInitial.valueChanged.connect(self.validateRoutineSetup)  # is checked, and that the status and start button are updated accordingly.
-		self.sbRtn0XFinal.valueChanged.connect(self.validateRoutineSetup)    # 
-		self.sbRtn0G1a.valueChanged.connect(self.validateRoutineSetup)       # 
-		self.sbRtn0G1b.valueChanged.connect(self.validateRoutineSetup)       # 
-		self.sbRtn0G1c.valueChanged.connect(self.validateRoutineSetup)       # 
-		self.sbRtn0G1d.valueChanged.connect(self.validateRoutineSetup)       # 
-		self.sbRtn0G1e.valueChanged.connect(self.validateRoutineSetup)       # 
-		self.sbRtn0G1f.valueChanged.connect(self.validateRoutineSetup)       # 
-		self.sbRtn0G2a.valueChanged.connect(self.validateRoutineSetup)       # 
-		self.sbRtn0G2b.valueChanged.connect(self.validateRoutineSetup)       # 
-		self.sbRtn0G2c.valueChanged.connect(self.validateRoutineSetup)       # 
-		self.sbRtn0G2d.valueChanged.connect(self.validateRoutineSetup)       # 
-
-		self.btnRtn0Start.clicked.connect(self.startRoutine) # Here we connect the "start" button to the startRoutine function
+		# dummyRoutine setup mode
+		self.sbRtn0NumPoints.valueChanged.connect(self.updateSetup) # Here we are connecting all of the parameter input fields' valueChanged functions to the updateSetup function.
+		self.sbRtn0StepDelay.valueChanged.connect(self.updateSetup) # This will ensure that any time the routine's parameters are changed, the validity of the new set of parameters
+		self.sbRtn0XInitial.valueChanged.connect(self.updateSetup)  # is checked, along with all other setup feedbacks, and that the new values are applied to the corresponding UI elements.
+		self.sbRtn0XFinal.valueChanged.connect(self.updateSetup)    # 
+		self.cbRtn0G1Order.currentIndexChanged.connect(self.updateSetup)
+		self.sbRtn0G1a.valueChanged.connect(self.updateSetup)       # 
+		self.sbRtn0G1b.valueChanged.connect(self.updateSetup)       # 
+		self.sbRtn0G1c.valueChanged.connect(self.updateSetup)       # 
+		self.sbRtn0G1d.valueChanged.connect(self.updateSetup)       # 
+		self.sbRtn0G1e.valueChanged.connect(self.updateSetup)       # 
+		self.sbRtn0G1f.valueChanged.connect(self.updateSetup)       # 
+		self.sbRtn0G2a.valueChanged.connect(self.updateSetup)       # 
+		self.sbRtn0G2b.valueChanged.connect(self.updateSetup)       # 
+		self.sbRtn0G2c.valueChanged.connect(self.updateSetup)       # 
+		self.sbRtn0G2d.valueChanged.connect(self.updateSetup)       # 
+		# dummy routine running mode
 
 		# Add rigging for other routines as they are implemented
 
 
+		####################
+		## Setup handlers ##
+		####################
+		self.setupHandlers = [_() for _ in ROUTINE_SETUP_HANDLERS]
+		for i in range(len(self.setupHandlers)):
+			self.updateSetupByTab(i,forceAllChanged=True)
+
+
+		##########################################################
+		## Tab and region managing for UI (start in setup mode) ##
+		##########################################################
+		# Disable tabs for unavailable routines
+		for i,_ in enumerate(ROUTINE_AVAILABILITIES):
+			if not _:
+				self.tabRoutineSetup.setTabEnabled(i,False)
+				self.tabRoutinePerform.setTabEnabled(i,False)
+		self.tabRoutinePerform.setEnabled(False)
+		self.listRoutines.currentRowChanged.connect(self.switchTab)
+		self.tabRoutineSetup.currentChanged.connect(self.switchTab)
+
+
+
+
+	############################## 
+	## function mode decorators ## These functions act as space-savers for checking that we're in the correct mode when calling a function.
+	############################## They will prevent decorated functions from being executed when they're called from the wrong mode.
+	def setupFunction(function):
+		def wrapper(self,*args,**kwargs):
+			if not (self.routineRunningID is None):
+				print("Error: setup mode function called outside of setup mode. Not executing.")
+				return
+			return function(self,*args,**kwargs)
+		return wrapper
+
+	def runningFunction(function):
+		def wrapper(self,*args,**kwargs):
+			if (self.routineRunningID is None):
+				print("Error: running mode function called outside of running mode. Not executing.")
+				return
+			return function(self,*args,**kwargs)
+		return wrapper
+
+
 	#####################
-	## Setup functions ##
+	## setup functions ##
 	#####################
-	def validateRoutineSetup(self,*args,**kwargs):
-		"""Validates the parameters of whichever routine is selected"""
-		if not (self.routineRunningID is None):
-			print("Error: validateRoutineSetup called with running routine")
+	@setupFunction
+	def switchTab(self,newIndex):
+		if newIndex >= len(ROUTINE_AVAILABILITIES):
+			self.listRoutines.setCurrentRow(newIndex)
+			self.tabRoutineSetup.setCurrentIndex(newIndex)
+			self.tabRoutinePerform.setCurrentIndex(newIndex)
 			return
+		elif ROUTINE_AVAILABILITIES[newIndex]:
+			self.listRoutines.setCurrentRow(newIndex)
+			self.tabRoutineSetup.setCurrentIndex(newIndex)
+			self.tabRoutinePerform.setCurrentIndex(newIndex)
+		return
 
-		whichRoutine = self.tabRoutineSetup.currentIndex()
-		parameters   = self.getSetupParameters(whichRoutine)
-		validity     = ROUTINES[whichRoutine][1](*parameters)
+	@setupFunction
+	def updateSetup(self,*args,**kwargs):
+		whichTab = self.tabRoutineSetup.currentIndex()
+		self.updateSetupByTab(whichTab)
 
-		if validity is True:
-			self.btnStart[whichRoutine].setEnabled(True)
-			self.lblSetupStatus[whichRoutine].setText("Settings are valid")
-		else:
-			self.btnStart[whichRoutine].setEnabled(False)
-			self.lblSetupStatus[whichRoutine].setText(validity)
+	@setupFunction
+	def updateSetupByTab(self,whichTab,forceAllChanged=False):
+		if not(ROUTINE_AVAILABILITIES[whichTab]):
+			print("Warning: updateSetupByTab called for unavailable routine.")
+			return
+		self.setupHandlers[whichTab].updateParameters(*self.getSetupParameters(whichTab),forceAllChanged)
+		feedbacks = self.setupHandlers[whichTab].getFeedbacks()
 
-		# Case structure for each different routine
-		# When we have more complicated setup, beyond a simple status and valid/invalid
-		# For instance, checking the location of a part when the user selects the ID of the module / component being tested
-		# Then we will use other routine functions (or modify the validateRoutine function) to get the data we need (part location, etc) 
-		# And update the setup UI elements accordingly here.
+		# feedbacks[0] is validity
+		self.btnStart[whichTab].setEnabled(feedbacks[0])
 
+		# feedbacks[1] is issues
+		self.listSetupIssues[whichTab].clear()
+		for item in feedbacks[1]:
+			self.listSetupIssues[whichTab].addItem(item)
+
+		# by-routine feedback handling
+		if whichTab == 0:
+			self.lblRtn0G1YInitial.setText(str(round(feedbacks[2],10)))
+			self.lblRtn0G1YFinal.setText(  str(round(feedbacks[3],10)))
+			self.lblRtn0Secret.setText(    feedbacks[4])
+
+	@setupFunction
 	def getSetupParameters(self,whichRoutine):
-		if not (self.routineRunningID is None):
-			print("Error: getSetupParameters called with running routine")
-			return
-
 		if whichRoutine == 0:
 			return [
 				self.sbRtn0NumPoints.value(),
 				self.sbRtn0StepDelay.value(),
 				self.sbRtn0XInitial.value(),
 				self.sbRtn0XFinal.value(),
+				int(str(self.cbRtn0G1Order.currentText())[0]),
 				self.sbRtn0G1a.value(),
 				self.sbRtn0G1b.value(),
 				self.sbRtn0G1c.value(),
@@ -136,75 +215,118 @@ class mainDesigner(gui.QMainWindow,Ui_MainWindow):
 		else:
 			raise ValueError("invalid whichRoutine specified for getSetupParameters")
 
+	@setupFunction
 	def startRoutine(self,*args,**kwargs):
 		"""Starts the currently selected routine"""
-		if not (self.routineRunningID is None):
-			print("Error: startRoutine called with running routine")
-			return
-
 		whichRoutine = self.tabRoutineSetup.currentIndex()
 		parameters   = self.getSetupParameters(whichRoutine)
-
-		self.routineRunningID = whichRoutine
-		self.routineRunning   = ROUTINES[whichRoutine][0](*parameters)
-
-		# disable routine selection lists
+		self.routineRunningID    = whichRoutine
+		self.routineRunning      = ROUTINE_PERFORMERS[whichRoutine](SERVERS,DEVICES,*parameters)
+		self.paused              = False
+		self.firstAdvanceCall    = True
+		self.lastAdvanceCallTime = None
 		self.listRoutines.setEnabled(False)
-		self.listRoutineStatus.setEnabled(False)
-
-		# disable all other tabs
-		for tabID in range(len(self.tabRoutineSetup)):
-			if not (tabID == whichRoutine):
-				self.tabRoutineSetup.setTabEnabled(tabID,False)
-		for tabID in range(len(self.tabRoutinePerform)):
-			if not (tabID == whichRoutine):
-				self.tabRoutinePerform.setTabEnabled(tabID,False)
-
-		# disable setup region altogether
 		self.tabRoutineSetup.setEnabled(False)
-
-		# Control of setup / selection can be regained by completing or cancelling the routine
-		# With this choice we have limited ourselves to one routine running at a time
-		# If we want to be able to run multiple in parallel, we'll have to remove this tab-switching restriction.
-		# Disabling the contents of the setup tab for running routines is still needed in this case.
-
-		self.paused = False             # start unpaused
-		self.firstAdvanceCall = True    # since we just initialized the routine, the next advance call is the first
-		self.lastAdvanceCallTime = None # there hasn't been an advance call yet, so this is None
-
-
+		self.tabRoutinePerform.setEnabled(True)
+		self.tabRoutinePerform.setCurrentIndex(whichRoutine)
+		self.clearRunningTab(self.routineRunningID)
+		self.updateControl()
 
 
 	###############################
 	## Routine running functions ##
 	###############################
+	@runningFunction
+	def routinePause(self,*args,**kwargs):
+		self.paused = True
 
-	def routinePause(self):
-		pass
+	@runningFunction
+	def routineResume(self,*args,**kwargs):
+		self.paused = False
 
-	def routineResume(self):
-		pass
+	@runningFunction
+	def routineCancel(self,*args,**kwargs):
+		self.routineRunning.cancel() # call the routine's cancel function
+		del self.routineRunning      # explicitly delete the routine after the cancel function terminates
 
-	def routineCancel(self):
-		pass
+		#self.clearRunningTab(self.routineRunningID)
 
-	def routineCleanup(self,*args,**kwargs):
-		"""Returns to setup mode and deletes the previous routine object"""
-		# Routines should be set up to:
-		# 1) before reporting completion, do EVERYTHING that they need to do, including saving data and cleaning up
-		# 2) have their cancel function set up to clean all loose ends, since if the routine is canelled, it will be deleted immediately after the cancel function completes.
-		# 
-		# This function will be called either:
-		# 1) when the timer_event discovers that the routine has set self.complete to true
-		# 2) when cancellation is requested, after the routine's cancel function completes
-		pass
+		self.routineRunning      = None # reset to setup mode
+		self.routineRunningID    = None # 
+		self.paused              = None # 
+		self.firstAdvanceCall    = None # 
+		self.lastAdvanceCallTime = None # 
+		self.listRoutines.setEnabled(True)
+		self.tabRoutineSetup.setEnabled(True)
+		self.tabRoutinePerform.setEnabled(False)
+
+	@runningFunction
+	def updateControl(self,*args,**kwargs):
+		whichTab = self.tabRoutinePerform.currentIndex()
+		self.updateControlByTab(whichTab)
+
+	@runningFunction
+	def updateControlByTab(self,whichTab):
+		controlParameters = self.getRunningControlParameters(whichTab)
+		self.routineRunning.updateControl(*controlParameters)
+		self.updateRunningDisplay()
+
+	@runningFunction
+	def updateRunningDisplay(self):
+		displayData = self.routineRunning.getDisplayData()
+		if type(displayData) is list:
+			values  = displayData
+			changed = [True for _ in values]
+		elif type(displayData) is tuple:
+			values, changed = displayData
+		else:
+			raise ValueError("output of routine.getDisplayData must be either a list of values, or a tuple containing a list of values and a list of which values have changed since last call")
+
+		# values[0] is progress
+		self.pbProgress[self.routineRunningID].setValue(int(100*values[0]))
+
+		# values[1] is status
+		self.lblRunningStatus[self.routineRunningID].setText(values[1])
+
+		# routine-specific displays
+		if self.routineRunningID == 0:
+			y1 = values[2][...,1]
+			y2 = values[3][...,1]
+
+			if len(y1):
+				self.lblRtn0G1RunningValue.setText(  str( round(y1[-1],   DISPLAY_PRECISION) ))
+				self.lblRtn0G1RunningAverage.setText(str( round(y1.mean(),DISPLAY_PRECISION) ))
+				self.lblRtn0G1RunningMaximum.setText(str( round(y1.max(), DISPLAY_PRECISION) ))
+				self.lblRtn0G1RunningMinimum.setText(str( round(y1.min(), DISPLAY_PRECISION) ))
+
+			if len(y2):
+				self.lblRtn0G2RunningValue.setText(  str( round(y2[-1],             DISPLAY_PRECISION) ))
+				self.lblRtn0G2RunningRms.setText(    str( round((y2**2).mean()**0.5,DISPLAY_PRECISION) ))
+				self.lblRtn0G2RunningMaximum.setText(str( round(y2.max(),           DISPLAY_PRECISION) ))
+				self.lblRtn0G2RunningMinimum.setText(str( round(y2.min(),           DISPLAY_PRECISION) ))
+
+
+	@runningFunction
+	def clearRunningTab(self,whichTab):
+		"""reset control and display widgets to blank"""
+		self.lblRunningStatus[whichTab].setText("")
+		self.pbProgress[whichTab].setValue(0.0)
+
+		if whichTab	== 0:
+			pass
+
+	@runningFunction
+	def getRunningControlParameters(self,whichTab):
+		if whichTab == 0:
+			return []
 
 
 
-
+	##################
+	## UI functions ##
+	##################
 	def start(self):
-		self.setWindowTitle("UI test")
-
+		self.setWindowTitle("Test Stand User Interface")
 		self.timer = core.QTimer(self)               # Create timer object
 		self.timer.setInterval(TIMERINTERVAL)        # Set timer interval to global TIMERINTERVAL, defined at the top of this file
 		self.timer.timeout.connect(self.timer_event) # Connect timer to the timer_event function
@@ -231,6 +353,20 @@ class mainDesigner(gui.QMainWindow,Ui_MainWindow):
 			msSinceLastCall = (currentTime - self.lastAdvanceCallTime) * 1000 # Calculate the time since advance was last called; convert seconds to milliseconds
 			self.routineRunning.advance(msSinceLastCall)                      # call advance with the elapsed time
 			self.msSinceLastCall = currentTime                                # set last call time to the time at which advance was called
+		self.updateRunningDisplay()
+
+		if self.routineRunning.complete is True:
+			del self.routineRunning      # explicitly delete the routine as soon as it reports completion
+			#self.clearRunningTab(self.routineRunningID)
+			self.routineRunning      = None # reset to setup mode
+			self.routineRunningID    = None # 
+			self.paused              = None # 
+			self.firstAdvanceCall    = None # 
+			self.lastAdvanceCallTime = None # 
+			self.listRoutines.setEnabled(True)
+			self.tabRoutineSetup.setEnabled(True)
+			self.tabRoutinePerform.setEnabled(False)
+
 
 		##############################################
 		## Update displays and check for completion ##
