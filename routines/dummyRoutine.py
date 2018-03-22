@@ -184,6 +184,7 @@ class dummyRoutinePerformer(object):
 
 		# Graph 1 variables. Graph 1 is a polynomial (order 5)
 		self.g1order = g1order
+		self.orderArray = numpy.array([_<=self.g1order for _ in range(6)]).astype(int)
 		self.g1a = g1a # order 0 coefficient (constant)
 		self.g1b = g1b # order 1 coefficient (linear term)
 		self.g1c = g1c # order 2 coefficient (quadratic term)
@@ -262,7 +263,7 @@ class dummyRoutinePerformer(object):
 	# It also returns any other data that the UI uses for displays (temperature and humidity values for readouts, arrays for making graphs, etc)
 	def getDisplayData(self):
 		progress = self.pointsDone / self.numPoints
-		status   = "all points complete" if self.complete else "{pointsDone} / {numPoints} points done".format(pointsDone = self.pointsDone, numPoints = self.numPoints)
+		status   = "all points complete" if self.complete else "{pointsDone} / {numPoints} points complete".format(pointsDone = self.pointsDone, numPoints = self.numPoints)
 		return [
 			progress,
 			status,
@@ -289,7 +290,8 @@ class dummyRoutinePerformer(object):
 		self.g2Data[self.nextPoint] = numpy.array([x,self.calcY2(x)])
 
 	def calcY1(self,x):
-		return self.g1a + self.g1b*x + self.g1c*x**2 + self.g1d*x**3 + self.g1e*x**4 + self.g1f*x**5
+		vals = numpy.array([self.g1a , self.g1b*x , self.g1c*x**2 , self.g1d*x**3 , self.g1e*x**4 , self.g1f*x**5])
+		return (vals * self.orderArray).sum()
 
 	def calcY2(self,x):
 		return self.g2a * math.sin(self.g2b*2*math.pi*x) + self.g2c * math.cos(self.g2d*2*math.pi*x)
